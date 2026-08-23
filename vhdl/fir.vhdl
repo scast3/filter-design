@@ -42,4 +42,14 @@ architecture behavior of fir is
     
 begin
     -- y_n <= sum h[k] * x[n-k], need multipliers and adders
+    process(clk)
+    begin
+    
+    
+    end process
+
+    process(x_reg)
+    begin
+
+    end process
 end behavior;
