@@ -33,7 +33,6 @@ architecture behavior of fir is
         15 => to_signed(-592, 16)    -- -0.018067 * 32768
     );
 
-    type prod_array is array (0 to NUM_TAPS-1) of signed(31 downto 0); -- product doubles length
     type shift_reg_array is array (0 to NUM_TAPS-1) of signed(15 downto 0);
 
     signal x_reg   : shift_reg_array := (others => (others => '0'));
@@ -64,11 +63,11 @@ begin
         current_sum := (others => '0');
         for k in 0 to NUM_TAPS-1 loop
             current_prod := x_reg(k) * h(k); -- x reg is inverted x
-            current_sum := current_sum + product(k);
+            current_sum := current_sum + resize(current_prod, current_sum'length);
         end loop;
         sum_reg <= current_sum;
 
     end process;
-    y_n <= sum_reg(30 downto 15); -- get upper bits
+    y_n <= resize(shift_right(sum_reg, 15), y_n'length); -- get upper bits
 
 end behavior;
