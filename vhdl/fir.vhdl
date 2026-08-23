@@ -33,8 +33,13 @@ architecture behavior of fir is
         15 => to_signed(-592, 16)    -- -0.018067 * 32768
     );
 
-    type prod_array is array (0 to NUM_TAPS-1) of signed(31 downto 0);
+    type prod_array is array (0 to NUM_TAPS-1) of signed(31 downto 0); -- product doubles length
+    type shift_reg_array is array (0 to NUM_TAPS-1) of signed(15 downto 0);
 
+    signal x_reg   : shift_reg_array := (others => (others => '0'));
+    signal product : prod_array := (others => (others => '0'));
+    signal sum_reg : signed(31 downto 0) := (others => '0');
+    
 begin
     -- y_n <= sum h[k] * x[n-k], need multipliers and adders
 end behavior;
