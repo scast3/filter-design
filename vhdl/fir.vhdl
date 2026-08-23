@@ -44,9 +44,20 @@ begin
     -- y_n <= sum h[k] * x[n-k], need multipliers and adders
     process(clk)
     begin
-    
-    
-    end process
+        if rising_edge(clk) then
+            if rst = '1' then
+                x_reg <= (others => (others => '0')); -- reset to all zeros
+                product <= (others => (others => '0'));
+                sum_reg <= (others => '0');
+            else
+                -- shift and add new sample
+                for k in NUM_TAPS-1 downto 1 loop
+                    x_reg(k) <= x_reg(k-1);
+                end loop;
+                x_reg(0) <= x_n;
+            end if;
+        end if;           
+    end process;
 
     process(x_reg)
     begin
