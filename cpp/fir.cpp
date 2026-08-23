@@ -33,7 +33,7 @@ public:
 int main(int argc, char* argv[]){
 	
 	std::vector<double> matlab_coeffs; //insert from tx file
-	std::vector<double> test_inputs;
+	std::vector<double> test_inputs = {1.0, 0.0, 0.0, 0.0};
 
 	std::ifstream file("coeffs.txt");
 	std::string line;
@@ -44,7 +44,7 @@ int main(int argc, char* argv[]){
 	
 	FIR filter(matlab_coeffs);
 	for (size_t i = 0; i<test_inputs.size(); i++){
-		std::cout << "y[" << i << "]: " << filter.process(test_inputs[i]);
+		std::cout << "y[" << i << "]: " << filter.process(test_inputs[i]) << "\n";
 	} 	
 
 	return 0;
