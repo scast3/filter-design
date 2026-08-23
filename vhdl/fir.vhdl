@@ -37,7 +37,6 @@ architecture behavior of fir is
     type shift_reg_array is array (0 to NUM_TAPS-1) of signed(15 downto 0);
 
     signal x_reg   : shift_reg_array := (others => (others => '0'));
-    signal product : prod_array := (others => (others => '0'));
     signal sum_reg : signed(31 downto 0) := (others => '0');
     
 begin
@@ -47,7 +46,6 @@ begin
         if rising_edge(clk) then
             if rst = '1' then
                 x_reg <= (others => (others => '0')); -- reset to all zeros
-                product <= (others => (others => '0'));
                 sum_reg <= (others => '0');
             else
                 -- shift and add new sample
@@ -60,7 +58,17 @@ begin
     end process;
 
     process(x_reg)
+        variable current_sum  : signed(35 downto 0);
+        variable current_prod : signed(31 downto 0);
     begin
+        current_sum := (others => '0');
+        for k in 0 to NUM_TAPS-1 loop
+            current_prod := x_reg(k) * h(k); -- x reg is inverted x
+            current_sum := current_sum + product(k);
+        end loop;
+        sum_reg <= current_sum;
 
-    end process
+    end process;
+    y_n <= sum_reg(30 downto 15); -- get upper bits
+
 end behavior;
