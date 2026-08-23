@@ -3,12 +3,12 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity fir is
+    generic (NUM_TAPS : integer := 16);
     port (
         clk : in std_logic;
         rst : in std_logic;
-        h  : in  std_logic_vector(15 downto 0); -- vector with taps
-        x_in  : in  std_logic_vector(15 downto 0); -- signal
-        y_out : out std_logic_vector(15 downto 0) -- output
+        x_n  : in  signed(15 downto 0); -- input sample
+        y_n : out signed(15 downto 0) -- output sample
     );
 end fir;
 
