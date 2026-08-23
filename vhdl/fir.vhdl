@@ -4,8 +4,11 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity fir is
     port (
-        b     : in  std_logic_vector(15 downto 0);
-        y : out std_logic_vector(15 - 1 downto 0)
+        clk : in std_logic;
+        rst : in std_logic;
+        h  : in  std_logic_vector(15 downto 0); -- vector with taps
+        x_in  : in  std_logic_vector(15 downto 0); -- signal
+        y_out : out std_logic_vector(15 downto 0) -- output
     );
 end fir;
 
