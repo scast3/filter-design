@@ -7,22 +7,24 @@ class FIR {
 private:
 	std::vector<double> h;
 	std::vector<double> x;
-	int index;
+	size_t n;
 	size_t num_taps;
 
 public:
-	FIR(const std::vector<double>& coeffs) : h(coeffs), x(coeffs.size(), 0.0), index(0), num_taps(coeffs.size()) {}
+	FIR(const std::vector<double>& coeffs) : h(coeffs), x(coeffs.size(), 0.0), n(0), num_taps(coeffs.size()) {}
 	
 
 	double process(double in_sample){
-		x[index]=in_sample;
+		x[n]=in_sample;
 		double y_sum = 0.0;
+		size_t idx = n;
 
 		for (size_t k = 0; k<num_taps; k++){
-			y_sum += h[k]*x[num_taps-k];
+			y_sum += h[k]*x[idx];
+			idx = (idx==0) ? num_taps - 1 : idx-1;
 		}
-		index++;
-		if (index==num_taps) index=0;
+		n++;
+		if (n==num_taps) n=0;
 			
 		return y_sum;
 	}
